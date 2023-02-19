@@ -1,2 +1,1 @@
-# mern-crud
-MERN CRUD Template
+<h1 align='center'>MERN CRUD Template</h1>
