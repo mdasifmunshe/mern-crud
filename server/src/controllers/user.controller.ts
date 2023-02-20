@@ -6,8 +6,8 @@ const router = express.Router();
 // Get all Method
 router.get('/', async (req, res) => {
 	try {
-		const data = await User.find();
-		res.json(data);
+		const user = await User.find();
+		res.json(user);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -16,8 +16,8 @@ router.get('/', async (req, res) => {
 // Get by ID Method
 router.get('/:id', async (req, res) => {
 	try {
-		const data = await User.findById(req.params.id);
-		res.json(data);
+		const user = await User.findById(req.params.id);
+		res.json(user);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -25,14 +25,15 @@ router.get('/:id', async (req, res) => {
 
 // Post Method
 router.post('/adduser', async (req, res) => {
-	const data = new User({
+	const user = new User({
 		name: req.body.name,
-		age: req.body.age,
+		email: req.body.email,
+		password: req.body.password,
 	});
 
 	try {
-		const dataToSave = await data.save();
-		res.status(200).json(dataToSave);
+		const userToSave = await user.save();
+		res.status(200).json(userToSave);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}
@@ -42,10 +43,10 @@ router.post('/adduser', async (req, res) => {
 router.put('/update/:id', async (req, res) => {
 	try {
 		const id = req.params.id;
-		const updatedData = req.body;
+		const updatedUser = req.body;
 		const options = { new: true };
 
-		const result = await User.findByIdAndUpdate(id, updatedData, options);
+		const result = await User.findByIdAndUpdate(id, updatedUser, options);
 
 		res.send(result);
 	} catch (error) {
@@ -57,8 +58,8 @@ router.put('/update/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
 	try {
 		const id = req.params.id;
-		const data = await User.findByIdAndDelete(id);
-		res.send(`Document with ${data.name} has been deleted..`);
+		const user = await User.findByIdAndDelete(id);
+		res.send(`User '${user.name}' has been deleted..`);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}
